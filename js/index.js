@@ -108,6 +108,7 @@ function _inherits(subClass, superClass) {
 }
 var numSocket = new Rete.Socket("Number");
 var floatSocket = new Rete.Socket("Float");
+var stringSocket = new Rete.Socket("String");
 
 var TextControl = function (_Rete$Control) {
     _inherits(TextControl, _Rete$Control);
@@ -181,6 +182,32 @@ var InputComponent = function (_Rete$Component) {
     }]);
     return InputComponent;
 }(Rete.Component);
+
+var InputTextComponent = function (_Rete$Component7) {
+    _inherits(InputTextComponent, _Rete$Component7);
+
+    function InputTextComponent() {
+        _classCallCheck(this, InputTextComponent);
+        var _this2 = _possibleConstructorReturn(this, (InputTextComponent.__proto__ || Object.getPrototypeOf(InputTextComponent)).call(this, "InputString"));
+        _this2.module = {
+            nodeType: 'input',
+            socket: stringSocket
+        };
+        return _this2;
+    }
+    _createClass(InputTextComponent, [{
+        key: "builder",
+        value: function builder(node) {
+            var out1 = new Rete.Output('output', "String", stringSocket);
+            var ctrl = new TextControl(this.editor, 'name');
+            return node.addControl(ctrl).addOutput(out1);
+        }
+    }]);
+    return InputTextComponent;
+}(Rete.Component);
+
+
+
 var ModuleComponent = function (_Rete$Component2) {
     _inherits(ModuleComponent, _Rete$Component2);
 
@@ -366,7 +393,7 @@ editor.use(ModulePlugin, {
 });
 //engine.use(ProfilerPlugin, { editor, enabled: true });
 
-[new NumComponent(), new AddComponent(), new InputComponent(), new ModuleComponent(), new OutputComponent(), new OutputFloatComponent()].map(function (c) {
+[new NumComponent(), new InputTextComponent(), new AddComponent(), new InputComponent(), new ModuleComponent(), new OutputComponent(), new OutputFloatComponent()].map(function (c) {
     editor.register(c);
     engine.register(c);
 });
