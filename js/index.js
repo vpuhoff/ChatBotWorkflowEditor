@@ -188,7 +188,7 @@ var InputTextComponent = function (_Rete$Component7) {
 
     function InputTextComponent() {
         _classCallCheck(this, InputTextComponent);
-        var _this2 = _possibleConstructorReturn(this, (InputTextComponent.__proto__ || Object.getPrototypeOf(InputTextComponent)).call(this, "InputString"));
+        var _this2 = _possibleConstructorReturn(this, (InputTextComponent.__proto__ || Object.getPrototypeOf(InputTextComponent)).call(this, "Начало чата"));
         _this2.module = {
             nodeType: 'input',
             socket: stringSocket
@@ -206,7 +206,49 @@ var InputTextComponent = function (_Rete$Component7) {
     return InputTextComponent;
 }(Rete.Component);
 
+var QuestionComponent = function (_Rete$Component9) {
+    _inherits(QuestionComponent, _Rete$Component9);
 
+    function QuestionComponent() {
+        _classCallCheck(this, QuestionComponent);
+        var _this2 = _possibleConstructorReturn(this, (QuestionComponent.__proto__ || Object.getPrototypeOf(QuestionComponent)).call(this, "Задать вопрос"));
+        _this2.module = {
+            nodeType: 'input',
+            socket: stringSocket
+        };
+        return _this2;
+    }
+    _createClass(QuestionComponent, [{
+        key: "builder",
+        value: function builder(node) {
+            var out1 = new Rete.Output('output', "String", stringSocket);
+            var in1 = new Rete.Input('input', "String", stringSocket);
+            var ctrl = new TextControl(this.editor, 'name');
+            return node.addControl(ctrl).addOutput(out1).addInput(in1);
+        }
+    }]);
+    return QuestionComponent;
+}(Rete.Component);
+
+var MatchTextComponent = function (_Rete$Component8) {
+    _inherits(MatchTextComponent, _Rete$Component8);
+
+    function MatchTextComponent() {
+        _classCallCheck(this, MatchTextComponent);
+        return _possibleConstructorReturn(this, (MatchTextComponent.__proto__ || Object.getPrototypeOf(MatchTextComponent)).call(this, "Совпадение подстроки"));
+    }
+    _createClass(MatchTextComponent, [{
+        key: "builder",
+        value: function builder(node) {
+            var out1 = new Rete.Output('output', "Совпадение найдено", stringSocket);
+            var out2 = new Rete.Output('output2', "Нет совпадений", stringSocket);
+            var in1 = new Rete.Input('input', "String", stringSocket);
+            var ctrl = new TextControl(this.editor, 'name');
+            return node.addControl(ctrl).addOutput(out1).addOutput(out2).addInput(in1);
+        }
+    }]);
+    return MatchTextComponent;
+}(Rete.Component);
 
 var ModuleComponent = function (_Rete$Component2) {
     _inherits(ModuleComponent, _Rete$Component2);
@@ -393,7 +435,7 @@ editor.use(ModulePlugin, {
 });
 //engine.use(ProfilerPlugin, { editor, enabled: true });
 
-[new NumComponent(), new InputTextComponent(), new AddComponent(), new InputComponent(), new ModuleComponent(), new OutputComponent(), new OutputFloatComponent()].map(function (c) {
+[new NumComponent(), new InputTextComponent(), new QuestionComponent(), new MatchTextComponent(), new AddComponent(), new InputComponent(), new ModuleComponent(), new OutputComponent(), new OutputFloatComponent()].map(function (c) {
     editor.register(c);
     engine.register(c);
 });
